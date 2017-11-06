@@ -1,0 +1,148 @@
+fileFormatVersion: 2
+guid: d12f4372d6dd94c16be6578eaa6f40d1
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: $$$DUMMY.alarm cloc
+    100002: Circle05
+    100004: Circle06
+    100006: Cylinder00
+    100008: Cylinder05
+    100010: Cylinder06
+    100012: Cylinder07
+    100014: Line05
+    100016: Line06
+    100018: Line07
+    100020: Line08
+    100022: Rectangle0
+    100024: Rectangle1
+    100026: Rectangle2
+    100028: Rectangle3
+    100030: Rectangle4
+    100032: Sphere02
+    100034: Sphere03
+    100036: //RootNode
+    400000: $$$DUMMY.alarm cloc
+    400002: Circle05
+    400004: Circle06
+    400006: Cylinder00
+    400008: Cylinder05
+    400010: Cylinder06
+    400012: Cylinder07
+    400014: Line05
+    400016: Line06
+    400018: Line07
+    400020: Line08
+    400022: Rectangle0
+    400024: Rectangle1
+    400026: Rectangle2
+    400028: Rectangle3
+    400030: Rectangle4
+    400032: Sphere02
+    400034: Sphere03
+    400036: //RootNode
+    2300000: Circle05
+    2300002: Circle06
+    2300004: Cylinder00
+    2300006: Cylinder05
+    2300008: Cylinder06
+    2300010: Cylinder07
+    2300012: Line05
+    2300014: Line06
+    2300016: Line07
+    2300018: Line08
+    2300020: Rectangle0
+    2300022: Rectangle1
+    2300024: Rectangle2
+    2300026: Rectangle3
+    2300028: Rectangle4
+    2300030: Sphere02
+    2300032: Sphere03
+    3300000: Circle05
+    3300002: Circle06
+    3300004: Cylinder00
+    3300006: Cylinder05
+    3300008: Cylinder06
+    3300010: Cylinder07
+    3300012: Line05
+    3300014: Line06
+    3300016: Line07
+    3300018: Line08
+    3300020: Rectangle0
+    3300022: Rectangle1
+    3300024: Rectangle2
+    3300026: Rectangle3
+    3300028: Rectangle4
+    3300030: Sphere02
+    3300032: Sphere03
+    4300000: Rectangle0
+    4300002: Rectangle1
+    4300004: Rectangle2
+    4300006: Rectangle3
+    4300008: Cylinder05
+    4300010: Sphere03
+    4300012: Line05
+    4300014: Line06
+    4300016: Line07
+    4300018: Cylinder06
+    4300020: Circle05
+    4300022: Circle06
+    4300024: Cylinder00
+    4300026: Line08
+    4300028: Rectangle4
+    4300030: Cylinder07
+    4300032: Sphere02
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 2
+  userData: 
