@@ -65,10 +65,10 @@ EditorBuildSettings:
     path: Assets/Photon Unity Networking/Demos/PunBasics-Tutorial/Scenes/PunBasics-Room
       for 3.unity
     guid: e07afcca5bf1a41f5bd28f498656b7b8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Xonix/Scenes/multiplayer.unity
     guid: 9c859e606749ddd42a9e3e7aba7c3659
-  - enabled: 1
+  - enabled: 0
     path: Assets/Xonix/Scenes/Main_2.unity
     guid: d43ae71aab22c409284870931b8572fd
   - enabled: 1

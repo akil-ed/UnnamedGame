@@ -133,6 +133,7 @@ public class PathController : MonoBehaviour
 				StartCoroutine (Fade ());
 			}
 		}
+		//StartCoroutine(ForceDestroy ());
 		/*else
 		{
 			Debug.Log("Not here anymore");
@@ -155,8 +156,23 @@ public class PathController : MonoBehaviour
 				cell.Key.IsDraw = false;
 			}
 			m_cellsOfPath.RemoveAt (0);
-			yield return new WaitForSeconds(.4f);
+			yield return new WaitForSeconds(.05f);
 		}
+
+	//	if (m_cellsOfPath.Count == 0) {
+
+	//	}
+	}
+
+	IEnumerator ForceDestroy(){
+		foreach (Transform T in GridRenderer.instance.TrailList) {
+			if(T)
+				T.GetComponent<PathCollision> ().Kill ();
+			print ("inside destriy");
+			yield return new WaitForSeconds(.02f);
+		}
+		GridRenderer.instance.TrailList.Clear ();
+		m_playerController.LostLife ();
 	}
 	
 	#endregion

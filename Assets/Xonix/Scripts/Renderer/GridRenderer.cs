@@ -31,7 +31,7 @@ public class GridRenderer : MonoBehaviour {
 	// The total number of cells.
 	private int m_numberOfGridCells = 0;
 
-	public List<Transform> TrailList;
+	public List<Transform> TrailList,CompletedList;
 		
 	#endregion
 	
@@ -41,6 +41,14 @@ public class GridRenderer : MonoBehaviour {
 	public void AddCell (GridCell cell)
 	{
 		m_cells.Add (cell);
+	}
+	public static GridRenderer instance;
+	void OnEnable(){
+		instance = this;
+	}
+
+	void OnDisable(){
+		instance = null;
 	}
 	
 	private void Start () 
@@ -94,9 +102,11 @@ public class GridRenderer : MonoBehaviour {
 				w.parent = m_gridComponents.transform;
 				//w.localScale = Vector3.zero;
 				w.DOScale (new Vector3 (1, 1, 1), 0.5f);
-
-				foreach(Transform T in TrailList)
+				CompletedList.Add (w);
+				foreach (Transform T in TrailList) {
 					T.DOScale (new Vector3 (1, 1, 1), 0.5f).SetEase (Ease.OutElastic);
+					CompletedList.Add (T);
+				}
 				TrailList.Clear ();
 
 				if (isFirst) {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using DG.Tweening;
+using HedgehogTeam.EasyTouch;
 // Define the character movement logic
 public class GridMove : MonoBehaviour {
 	
@@ -79,28 +80,125 @@ public class GridMove : MonoBehaviour {
 		ResetPosition ();
 		
 		m_notMovingTime = Time.time;
+
+
+		m_input = Vector2.up;
+		//StartCoroutine (move(transform));
+	}
+
+
+	void OnEnable(){
+		EasyTouch.On_Swipe += On_Swipe;
+		EasyTouch.On_SwipeEnd += On_SwipeEnd;
+	}
+
+	void OnDestroy(){
+		EasyTouch.On_Swipe -= On_Swipe;
+		EasyTouch.On_SwipeEnd -= On_SwipeEnd;
+	}
+
+	void On_SwipeEnd(Gesture gesture){
+	//	m_input = Vector2.zero;
+	//	m_isMoving = false;
+	}
+	void On_Swipe (Gesture gesture){
+
+		print ("swiping");
+			// Getting input values.
+			switch (gesture.swipe){
+
+			case EasyTouch.SwipeDirection.Left:
+				m_input = Vector2.left;
+				break;
+
+			case EasyTouch.SwipeDirection.Right:
+				m_input = Vector2.right;
+				break;
+			case EasyTouch.SwipeDirection.Up:
+				m_input = Vector2.up;
+				break;
+			case EasyTouch.SwipeDirection.Down:
+				m_input = Vector2.down;
+				break;
+
+			default:
+				print ("dddddf");
+				break;
+
+			}
+
 	}
 		
-    private void Update () 
+    void Update () 
 	{	
-        if (!m_guiController.GameCompleted && !m_isMoving) 
-		{
-			// Getting input values.
-	        m_input = new Vector2 (Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-						
-			// Checking it it is a bound.
+		if(Input.GetKeyDown (KeyCode.LeftArrow))
+			m_input = Vector2.left;
+		if(Input.GetKeyDown (KeyCode.RightArrow))
+			m_input = Vector2.right;
+		if(Input.GetKeyDown (KeyCode.UpArrow))
+			m_input = Vector2.up;
+		if(Input.GetKeyDown (KeyCode.DownArrow))
+			m_input = Vector2.down;
+
+		Movement ();
+
+
+//		if (!m_guiController.GameCompleted && !m_isMoving) 
+//		{
+//			// Getting input values.
+//	        m_input = new Vector2 (Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+//		
+//
+//
+//			// Checking it it is a bound.
+//			if (m_input.x > 0f &&  m_characterLocation.x == m_gridMap.Width-1) return;
+//			else if (m_input.x < 0f &&  m_characterLocation.x == 0) return;
+//			if (m_input.y > 0f &&  m_characterLocation.y == m_gridMap.Height-1) return;
+//			else if (m_input.y < 0f &&  m_characterLocation.y == 0) return;
+//					
+//
+//            if (Mathf.Abs (m_input.x) > Mathf.Abs (m_input.y))
+//                m_input.y = 0;
+//            else 
+//            	m_input.x = 0;
+//            
+//
+//			if (m_input.x < 0)
+//				Character.transform.rotation = Quaternion.Euler (0, 270, 0);
+//			else if (m_input.x > 0)
+//				Character.transform.rotation = Quaternion.Euler (0, 90, 0);
+//
+//			if (m_input.y < 0)
+//				Character.transform.rotation = Quaternion.Euler (0, 180, 0);
+//			else if (m_input.y > 0)
+//				Character.transform.rotation = Quaternion.Euler (0, 0, 0);
+//
+//
+// 			// If the player moves the character.
+//       //     if (m_input != Vector2.zero) 
+//                StartCoroutine (move(transform));
+//			
+//			NotMovingAnimation ();
+//        }
+    }
+
+
+	public void Movement(){
+		if (!m_guiController.GameCompleted && !m_isMoving) 
+		{
+			
 			if (m_input.x > 0f &&  m_characterLocation.x == m_gridMap.Width-1) return;
 			else if (m_input.x < 0f &&  m_characterLocation.x == 0) return;
 			if (m_input.y > 0f &&  m_characterLocation.y == m_gridMap.Height-1) return;
 			else if (m_input.y < 0f &&  m_characterLocation.y == 0) return;
-					
 
-            if (Mathf.Abs (m_input.x) > Mathf.Abs (m_input.y))
-                m_input.y = 0;
-            else 
-            	m_input.x = 0;
-            
+
+			if (Mathf.Abs (m_input.x) > Mathf.Abs (m_input.y))
+				m_input.y = 0;
+			else 
+				m_input.x = 0;
+
 
 			if (m_input.x < 0)
 				Character.transform.rotation = Quaternion.Euler (0, 270, 0);
@@ -113,14 +211,15 @@ public class GridMove : MonoBehaviour {
 				Character.transform.rotation = Quaternion.Euler (0, 0, 0);
 
 
- 			// If the player moves the character.
-            if (m_input != Vector2.zero) 
-                StartCoroutine (move(transform));
-			
+			// If the player moves the character.
+			//     if (m_input != Vector2.zero) 
+			StartCoroutine (move(transform));
+
 			NotMovingAnimation ();
-        }
-    }
-	
+		}
+	}
+
+
 	// Reset the player position to 0,1,0.
 	public void ResetPosition () 
 	{
@@ -161,7 +260,7 @@ public class GridMove : MonoBehaviour {
         
         while (m_movementTime < 1f) {
             m_movementTime += Time.deltaTime * (m_moveSpeed / m_gridSize);
-            transform.position = Vector3.Lerp (m_startPosition, m_endPostion, m_movementTime);
+			transform.position = Vector3.MoveTowards (m_startPosition, m_endPostion, m_movementTime);
 			
             yield return null;
         }	
@@ -190,6 +289,7 @@ public class GridMove : MonoBehaviour {
         m_isMoving = false;
 		m_notMovingTime = Time.time;
         yield return 0;
+	//	StartCoroutine (move(transform));
     }
 	
 	#endregion
