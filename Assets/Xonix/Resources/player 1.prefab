@@ -189,10 +189,10 @@ GameObject:
   - component: {fileID: 4490711440067686}
   - component: {fileID: 136053733344843582}
   - component: {fileID: 54047282692493384}
-  - component: {fileID: 114291204407261926}
   - component: {fileID: 82875279343879900}
   - component: {fileID: 114461114856384942}
   - component: {fileID: 114067255717442156}
+  - component: {fileID: 114940909304823828}
   m_Layer: 0
   m_Name: player 1
   m_TagString: Player
@@ -929,20 +929,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Character: {fileID: 1878203208189122}
---- !u!114 &114291204407261926
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1878203208189122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ad61afdd93c64f6c90ad2d117e04c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_powerUpSound: {fileID: 8300000, guid: 38fa0d83b869146c88bb629123a9de56, type: 3}
-  m_loseLifeSound: {fileID: 8300000, guid: a841d2a402e1b42caa0be8fcfcfb4aed, type: 3}
-  m_explosionSound: {fileID: 8300000, guid: 8ba40b585939f4b9a854aa2846d04254, type: 3}
 --- !u!114 &114322555455339262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -997,13 +983,26 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4490711440067686}
   - {fileID: 114067255717442156}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114940909304823828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878203208189122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e3ba93761c818409f64904f0cc21d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_powerUpSound: {fileID: 8300000, guid: 38fa0d83b869146c88bb629123a9de56, type: 3}
+  m_loseLifeSound: {fileID: 8300000, guid: a841d2a402e1b42caa0be8fcfcfb4aed, type: 3}
+  m_explosionSound: {fileID: 8300000, guid: 8ba40b585939f4b9a854aa2846d04254, type: 3}
 --- !u!114 &114975770601809316
 MonoBehaviour:
   m_ObjectHideFlags: 1

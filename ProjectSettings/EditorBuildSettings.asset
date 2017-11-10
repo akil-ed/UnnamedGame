@@ -66,12 +66,15 @@ EditorBuildSettings:
       for 3.unity
     guid: e07afcca5bf1a41f5bd28f498656b7b8
   - enabled: 0
-    path: Assets/Xonix/Scenes/multiplayer.unity
-    guid: 9c859e606749ddd42a9e3e7aba7c3659
-  - enabled: 0
-    path: Assets/Xonix/Scenes/Main_2.unity
+    path: 
     guid: d43ae71aab22c409284870931b8572fd
   - enabled: 1
+    path: Assets/Xonix/Scenes/multiplayer.unity
+    guid: 9c859e606749ddd42a9e3e7aba7c3659
+  - enabled: 1
+    path: Assets/Xonix/Scenes/Main_2.unity
+    guid: 7e6390a6dcff9fa4397d5f8151e5a11c
+  - enabled: 0
     path: Assets/Xonix/Scenes/Main.unity
     guid: aeb3f0f9bcda2b847b24f57355027084
   - enabled: 0

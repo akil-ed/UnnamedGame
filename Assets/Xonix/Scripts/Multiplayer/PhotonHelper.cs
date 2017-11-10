@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PhotonHelper : MonoBehaviour 
 {
 	public static PhotonHelper instance;
+	public bool wait;
 
 	void Start()
 	{
@@ -39,7 +40,10 @@ public class PhotonHelper : MonoBehaviour
 	void OnJoinedRoom()
 	{
 		print ("room joined!");
+		if(wait)
 		StartCoroutine (WaitForPlayers());
+		else
+			SceneManager.LoadScene ("Main_2");
 		//PhotonNetwork.Instantiate ("player",Vector3.zero,Quaternion.identity,new byte());
 	}
 
