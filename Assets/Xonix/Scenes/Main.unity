@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.47815496, g: 0.19357574, b: 0.08262377, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2850,6 +2850,7 @@ Prefab:
     - {fileID: 114461114856384942, guid: c88c634ceaf562341a36d2b461d13609, type: 2}
     - {fileID: 114067255717442156, guid: c88c634ceaf562341a36d2b461d13609, type: 2}
     - {fileID: 82875279343879900, guid: c88c634ceaf562341a36d2b461d13609, type: 2}
+    - {fileID: 114940909304823828, guid: c88c634ceaf562341a36d2b461d13609, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c88c634ceaf562341a36d2b461d13609, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &1990548546 stripped
@@ -2873,6 +2874,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Character: {fileID: 2008843630}
+--- !u!114 &2008843632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008843630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ad61afdd93c64f6c90ad2d117e04c8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_powerUpSound: {fileID: 8300000, guid: 38fa0d83b869146c88bb629123a9de56, type: 3}
+  m_loseLifeSound: {fileID: 8300000, guid: a841d2a402e1b42caa0be8fcfcfb4aed, type: 3}
+  m_explosionSound: {fileID: 8300000, guid: 8ba40b585939f4b9a854aa2846d04254, type: 3}
 --- !u!82 &2008843635
 AudioSource:
   m_ObjectHideFlags: 0
