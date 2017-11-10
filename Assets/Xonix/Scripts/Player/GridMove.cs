@@ -88,40 +88,56 @@ public class GridMove : MonoBehaviour {
 		//StartCoroutine (move(transform));
 	}
 
-
+	bool isSwiped;
 	void OnEnable(){
-	//	EasyTouch.On_SwipeStart += On_Swipe;
+		EasyTouch.On_Swipe += On_Swipe;
 		EasyTouch.On_SwipeEnd += On_SwipeEnd;
 	}
 
 	void OnDestroy(){
-	//	EasyTouch.On_SwipeStart -= On_Swipe;
+		EasyTouch.On_Swipe -= On_Swipe;
 		EasyTouch.On_SwipeEnd -= On_SwipeEnd;
 	}
 
 	void On_SwipeEnd(Gesture gesture){
-		print ("swiping");
-		// Getting input values.
+		isSwiped = false;
+
+
+	}
+	void On_Swipe (Gesture gesture){
+		if (isSwiped)
+			return;
+
+
 		switch (gesture.swipe){
 
 		case EasyTouch.SwipeDirection.Left:
-			m_input = Vector2.left;
+			if (!Vector2.Equals (m_input,Vector2.right)) {
+				m_input = Vector2.left;
+				isSwiped = true;
+			}
 			break;
 
 		case EasyTouch.SwipeDirection.Right:
-			m_input = Vector2.right;
+			if (!Vector2.Equals (m_input,Vector2.left)) {
+				m_input = Vector2.right;
+				isSwiped = true;
+			}
 			break;
 		case EasyTouch.SwipeDirection.Up:
-			m_input = Vector2.up;
+			if (!Vector2.Equals (m_input,Vector2.down)) {
+				m_input = Vector2.up;
+				isSwiped = true;
+			}
 			break;
 		case EasyTouch.SwipeDirection.Down:
-			m_input = Vector2.down;
+			if (!Vector2.Equals (m_input,Vector2.up)) {
+				m_input = Vector2.down;
+				isSwiped = true;
+			}
 			break;
 
 		}
-	}
-	void On_Swipe (Gesture gesture){
-
 	}
 		
     void Update () 
@@ -178,15 +194,27 @@ public class GridMove : MonoBehaviour {
 //        }
     }
 
-
+	public float m_rotateSpeed;
 	public void Movement(){
 		if (!m_guiController.GameCompleted && !m_isMoving) 
 		{
 			
-			if (m_input.x > 0f &&  m_characterLocation.x == m_gridMap.Width-1) return;
-			else if (m_input.x < 0f &&  m_characterLocation.x == 0) return;
-			if (m_input.y > 0f &&  m_characterLocation.y == m_gridMap.Height-1) return;
-			else if (m_input.y < 0f &&  m_characterLocation.y == 0) return;
+			if (m_input.x > 0f && m_characterLocation.x == m_gridMap.Width - 1) {
+				m_input = Vector3.zero;
+				return;
+			}
+			else if (m_input.x < 0f &&  m_characterLocation.x == 0){
+				m_input = Vector3.zero;
+				return;
+			}
+			if (m_input.y > 0f &&  m_characterLocation.y == m_gridMap.Height-1){
+				m_input = Vector3.zero;
+				return;
+			}
+			else if (m_input.y < 0f &&  m_characterLocation.y == 0){
+				m_input = Vector3.zero;
+				return;
+			}
 
 
 			if (Mathf.Abs (m_input.x) > Mathf.Abs (m_input.y))
@@ -196,14 +224,14 @@ public class GridMove : MonoBehaviour {
 
 
 			if (m_input.x < 0)
-				Character.transform.rotation = Quaternion.Euler (0, 270, 0);
+				Character.transform.DORotate (new Vector3 (0, 270, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
 			else if (m_input.x > 0)
-				Character.transform.rotation = Quaternion.Euler (0, 90, 0);
+				Character.transform.DORotate (new Vector3 (0, 90, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
 
 			if (m_input.y < 0)
-				Character.transform.rotation = Quaternion.Euler (0, 180, 0);
+				Character.transform.DORotate (new Vector3 (0, 180, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
 			else if (m_input.y > 0)
-				Character.transform.rotation = Quaternion.Euler (0, 0, 0);
+				Character.transform.DORotate (new Vector3 (0, 0, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
 
 
 			// If the player moves the character.
@@ -233,6 +261,7 @@ public class GridMove : MonoBehaviour {
 	}
  
 	// Move the player on the grid.
+//	public float speed;
     private IEnumerator move (Transform transform) 
 	{
         m_isMoving = true;
@@ -253,13 +282,28 @@ public class GridMove : MonoBehaviour {
 			CharacterLocation = new GridLocation ((int) m_endPostion.x, (int) m_endPostion.y);
 		}
         
-        while (m_movementTime < 1f) {
-            m_movementTime += Time.deltaTime * (m_moveSpeed / m_gridSize);
-			transform.position = Vector3.Lerp (m_startPosition, m_endPostion, m_movementTime);
-			
-            yield return null;
-        }	
-		
+//        while (m_movementTime < 1f) {
+//            m_movementTime += Time.deltaTime * (m_moveSpeed / m_gridSize);
+//			transform.position = Vector3.Lerp (m_startPosition, m_endPostion, m_movementTime);
+//			
+//            yield return null;
+//        }	
+		float m_moveTime = Vector3.Distance (m_startPosition,m_endPostion)/m_moveSpeed;
+		transform.DOMove (m_endPostion, m_moveTime, false).SetEase (Ease.Linear).OnComplete (() => {
+			StartCoroutine (PostMovement());
+		});
+
+//		while (transform.position != m_endPostion) {
+//			transform.position = Vector3.MoveTowards (transform.position, m_endPostion, m_moveSpeed * Time.deltaTime);
+//			yield return new WaitForSeconds (Time.deltaTime);
+//		}
+
+		yield return 0;
+	
+	//	StartCoroutine (move(transform));
+    }
+
+	IEnumerator PostMovement(){
 		// Add each new cell that the player has walk througt to the path.
 		if (!m_gridMap.GetCellAt (CharacterLocation).IsCovered)
 		{
@@ -272,7 +316,7 @@ public class GridMove : MonoBehaviour {
 			foreach (GameObject go in GO)
 			{
 				GridLocation enemieLocation = new GridLocation((int) Math.Round(go.transform.position.x, MidpointRounding.ToEven), 
-															   (int) Math.Round(go.transform.position.z, MidpointRounding.ToEven));
+					(int) Math.Round(go.transform.position.z, MidpointRounding.ToEven));
 				FloodFill.FillEnemiesArea (m_gridMap, m_gridMap.GetCellAt (enemieLocation));
 			}
 			FloodFill.FillPlayerCoveredArea (m_gridMap);
@@ -283,12 +327,11 @@ public class GridMove : MonoBehaviour {
 
 			//guiController.VerifyPercentageOfGridCovered ();
 		}
- 
-        m_isMoving = false;
+
+		m_isMoving = false;
 		m_notMovingTime = Time.time;
-        yield return 0;
-	//	StartCoroutine (move(transform));
-    }
+		yield return 0;
+	}
 	
 	#endregion
 }
