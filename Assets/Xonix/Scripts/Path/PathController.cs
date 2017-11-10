@@ -96,6 +96,8 @@ public class PathController : MonoBehaviour
 		 * the cell that we want to destroy is still in the path. If we don't do that, all cells will
 		 * be destroyed, 'cause we will not find this cell.
 		 */ 	
+		Invoke ("KillPlayer", 0.5f);
+
 		bool cellAlreadyDestroyed = true;
 		for (int i = 0; i < m_cellsOfPath.Count; i++) {
 			KeyValuePair<GridCell, GameObject> item = m_cellsOfPath [i];
@@ -172,6 +174,11 @@ public class PathController : MonoBehaviour
 			yield return new WaitForSeconds(.02f);
 		}
 		GridRenderer.instance.TrailList.Clear ();
+		m_playerController.LostLife ();
+	}
+
+	void KillPlayer(){
+		StartCoroutine (ForceDestroy ());
 		m_playerController.LostLife ();
 	}
 	

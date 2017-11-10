@@ -78,7 +78,7 @@ public class GridRenderer : MonoBehaviour {
 		w.parent = m_gridComponents.transform;
 
 		//w.localScale = Vector3.zero;
-		w.DOScale (new Vector3 (0.4f, 0.4f, 0.4f), 0.6f).SetEase (Ease.OutBounce);
+		w.GetComponent <Tween>().PerformScale (new Vector3 (0.4f, 0.4f, 0.4f), 0.6f,Ease.OutBounce);
 		TrailList.Add (w);
 
 		w.gameObject.AddComponent<PathCollision>();
@@ -101,10 +101,11 @@ public class GridRenderer : MonoBehaviour {
 				w.name = "Wall"+cell.Location.x.ToString()+"-"+cell.Location.y.ToString();
 				w.parent = m_gridComponents.transform;
 				//w.localScale = Vector3.zero;
-				w.DOScale (new Vector3 (1, 1, 1), 0.5f);
+				//w.DOScale (new Vector3 (1, 1, 1), 0.5f);
+				w.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.Linear);
 				CompletedList.Add (w);
 				foreach (Transform T in TrailList) {
-					T.DOScale (new Vector3 (1, 1, 1), 0.5f).SetEase (Ease.OutElastic);
+					T.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.OutElastic);
 					CompletedList.Add (T);
 				}
 				TrailList.Clear ();
@@ -114,7 +115,19 @@ public class GridRenderer : MonoBehaviour {
 				}
 				m_numberOfRenderedCells++;
 				cell.IsDraw = true;
-			}	
+			}
+
+//			if (cell.IsCovered) {
+//				if (cell.Location.x == m_playerGridMove.CharacterLocation.x &&
+//				    cell.Location.y == m_playerGridMove.CharacterLocation.y) {
+//					foreach (Transform T in TrailList) {
+//						T.DOScale (new Vector3 (1, 1, 1), 0.5f).SetEase (Ease.OutElastic);
+//						CompletedList.Add (T);
+//					}
+//					TrailList.Clear ();
+//				}
+//
+//			}
 		}
 
 

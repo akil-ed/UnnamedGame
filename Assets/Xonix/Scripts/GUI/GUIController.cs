@@ -249,7 +249,7 @@ public class GUIController : MonoBehaviour {
 	
 	private void OnGUI ()
     {
-		return;
+		
 		if (m_fadeScreen)
 		{
 			float r = GUI.color.r;

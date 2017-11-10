@@ -88,44 +88,37 @@ public class GridMove : MonoBehaviour {
 
 
 	void OnEnable(){
-		EasyTouch.On_Swipe += On_Swipe;
+	//	EasyTouch.On_SwipeStart += On_Swipe;
 		EasyTouch.On_SwipeEnd += On_SwipeEnd;
 	}
 
 	void OnDestroy(){
-		EasyTouch.On_Swipe -= On_Swipe;
+	//	EasyTouch.On_SwipeStart -= On_Swipe;
 		EasyTouch.On_SwipeEnd -= On_SwipeEnd;
 	}
 
 	void On_SwipeEnd(Gesture gesture){
-	//	m_input = Vector2.zero;
-	//	m_isMoving = false;
+		print ("swiping");
+		// Getting input values.
+		switch (gesture.swipe){
+
+		case EasyTouch.SwipeDirection.Left:
+			m_input = Vector2.left;
+			break;
+
+		case EasyTouch.SwipeDirection.Right:
+			m_input = Vector2.right;
+			break;
+		case EasyTouch.SwipeDirection.Up:
+			m_input = Vector2.up;
+			break;
+		case EasyTouch.SwipeDirection.Down:
+			m_input = Vector2.down;
+			break;
+
+		}
 	}
 	void On_Swipe (Gesture gesture){
-
-		print ("swiping");
-			// Getting input values.
-			switch (gesture.swipe){
-
-			case EasyTouch.SwipeDirection.Left:
-				m_input = Vector2.left;
-				break;
-
-			case EasyTouch.SwipeDirection.Right:
-				m_input = Vector2.right;
-				break;
-			case EasyTouch.SwipeDirection.Up:
-				m_input = Vector2.up;
-				break;
-			case EasyTouch.SwipeDirection.Down:
-				m_input = Vector2.down;
-				break;
-
-			default:
-				print ("dddddf");
-				break;
-
-			}
 
 	}
 		
@@ -260,7 +253,7 @@ public class GridMove : MonoBehaviour {
         
         while (m_movementTime < 1f) {
             m_movementTime += Time.deltaTime * (m_moveSpeed / m_gridSize);
-			transform.position = Vector3.MoveTowards (m_startPosition, m_endPostion, m_movementTime);
+			transform.position = Vector3.Lerp (m_startPosition, m_endPostion, m_movementTime);
 			
             yield return null;
         }	
