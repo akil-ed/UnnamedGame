@@ -62,6 +62,8 @@ public class GridMove : MonoBehaviour {
 	
 	// The GUIController.
 	private GUIController m_guiController;
+
+	private GridRenderer m_gridrenderer;
 	
 	// For how long the player has't been moving.
 	private float m_notMovingTime;
@@ -76,7 +78,7 @@ public class GridMove : MonoBehaviour {
 		m_gridMap = GameObject.Find ("GridBuilder").GetComponent<GridBuilder> ().GridMap;
 		m_pathController = GameObject.Find("PathController").GetComponent<PathController> ();
 		m_guiController = GameObject.Find("GUIController").GetComponent<GUIController> ();
-		
+		m_gridrenderer = GameObject.Find("GridRenderer").GetComponent<GridRenderer> ();
 		ResetPosition ();
 		
 		m_notMovingTime = Time.time;
@@ -276,6 +278,9 @@ public class GridMove : MonoBehaviour {
 			FloodFill.FillPlayerCoveredArea (m_gridMap);
 			FloodFill.ClearEnemiesArea (m_gridMap);	
 			m_pathController.ClosePath ();
+
+			m_gridrenderer.FillTrail ();
+
 			//guiController.VerifyPercentageOfGridCovered ();
 		}
  

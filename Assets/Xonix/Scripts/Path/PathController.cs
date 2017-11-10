@@ -59,6 +59,9 @@ public class PathController : MonoBehaviour
 		}
 		// If it is, it's necessary to remove it from the path and put it again, so it will be at the rigth order.
 		if (repeatedCell) {
+			KillPlayer ();
+
+
 			m_cellsOfPath [i].Value.GetComponent<PathCollision> ().Kill ();
 			m_cellsOfPath.RemoveAt (i);
 		}

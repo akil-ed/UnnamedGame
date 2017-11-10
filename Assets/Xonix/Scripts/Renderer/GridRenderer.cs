@@ -83,7 +83,7 @@ public class GridRenderer : MonoBehaviour {
 
 		w.gameObject.AddComponent<PathCollision>();
 		cell.IsDraw = true;
-		m_numberOfRenderedCells++;
+		//m_numberOfRenderedCells++;
 		return w;
 	}
 	
@@ -104,11 +104,8 @@ public class GridRenderer : MonoBehaviour {
 				//w.DOScale (new Vector3 (1, 1, 1), 0.5f);
 				w.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.Linear);
 				CompletedList.Add (w);
-				foreach (Transform T in TrailList) {
-					T.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.OutElastic);
-					CompletedList.Add (T);
-				}
-				TrailList.Clear ();
+			
+				FillTrail ();
 
 				if (isFirst) {
 					w.GetComponent <MeshRenderer> ().enabled = false;
@@ -132,6 +129,16 @@ public class GridRenderer : MonoBehaviour {
 
 
 		isFirst = false;
+	}
+
+	public void FillTrail(){
+		foreach (Transform T in TrailList) {
+			T.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.OutElastic);
+			CompletedList.Add (T);
+			m_numberOfRenderedCells++;
+		}
+		TrailList.Clear ();
+
 	}
 	
 	// Return the percentage of covered cells.
