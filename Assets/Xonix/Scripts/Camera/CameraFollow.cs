@@ -25,6 +25,8 @@ public class CameraFollow : MonoBehaviour
 	void Start ()
 	{ 
 		// First let's start with our Camera centered on the player. 
+		if (m_target == null)
+			m_target = GameObject.FindGameObjectWithTag ("Player").transform;
 		transform.position = m_target.position + distanceFromTarget;
 	}
 	

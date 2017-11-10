@@ -2,6 +2,7 @@
 using System.Collections;
 
 // GridCell defines a single cell in a Grid
+[System.Serializable]
 public class GridCell : IGridCell {
 
 	#region Fields
