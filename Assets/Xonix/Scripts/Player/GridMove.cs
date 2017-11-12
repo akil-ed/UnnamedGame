@@ -10,7 +10,7 @@ public class GridMove : MonoBehaviour {
 	#region Fields
 	
 	// The speed at which the character normally moves, in units per second.
-	private float m_moveSpeed = 7f;
+	public float m_moveSpeed = 7f;
 	public float MoveSpeed
 	{
 		set { m_moveSpeed = value; }
@@ -152,7 +152,7 @@ public class GridMove : MonoBehaviour {
 		if(Input.GetKeyDown (KeyCode.DownArrow))
 			m_input = Vector2.down;
 
-		Movement ();
+
 
 
 //		if (!m_guiController.GameCompleted && !m_isMoving) 
@@ -194,8 +194,14 @@ public class GridMove : MonoBehaviour {
 //        }
     }
 
+	void LateUpdate(){
+		Movement ();
+	}
+
 	public float m_rotateSpeed;
 	public void Movement(){
+
+
 		if (!m_guiController.GameCompleted && !m_isMoving) 
 		{
 			
@@ -236,16 +242,19 @@ public class GridMove : MonoBehaviour {
 
 			// If the player moves the character.
 			//     if (m_input != Vector2.zero) 
-			StartCoroutine (move(transform));
-
-			NotMovingAnimation ();
+			//StartCoroutine (move(transform));
+			PlayerMove ();
+		//	NotMovingAnimation ();
 		}
 	}
+
+
 
 
 	// Reset the player position to 0,1,0.
 	public void ResetPosition () 
 	{
+		//this.gameObject.transform.position = new Vector3 (m_initialPosition.x+m_gridMap.Width/2, 1f, m_initialPosition.y);
 		this.gameObject.transform.position = new Vector3 (m_initialPosition.x, 1f, m_initialPosition.y);
 		CharacterLocation = new GridLocation (m_initialPosition);
 	}
@@ -261,7 +270,62 @@ public class GridMove : MonoBehaviour {
 	}
  
 	// Move the player on the grid.
-//	public float speed;
+
+	public void PlayerMove(){
+		m_isMoving = true;
+		m_startPosition = transform.position;
+		m_movementTime = 0;
+
+		// Check the grid orientation to move the character correctly.
+		if(m_gridOrientation == Orientation.Horizontal)
+		{
+			m_endPostion = new Vector3 (m_startPosition.x + System.Math.Sign(m_input.x) * m_gridSize,
+				m_startPosition.y, m_startPosition.z + System.Math.Sign(m_input.y) * m_gridSize);
+			CharacterLocation = new GridLocation ((int) m_endPostion.x, (int) m_endPostion.z);
+		}
+		else 
+		{
+			m_endPostion = new Vector3 (m_startPosition.x + System.Math.Sign (m_input.x) * m_gridSize,
+				m_startPosition.y + System.Math.Sign (m_input.y) * m_gridSize, m_startPosition.z);
+			CharacterLocation = new GridLocation ((int) m_endPostion.x, (int) m_endPostion.y);
+		}
+
+
+		float m_moveTime = Vector3.Distance (m_startPosition,m_endPostion)/m_moveSpeed;
+		transform.DOMove (m_endPostion, m_moveTime, false).SetEase (Ease.Linear).OnComplete (() => {
+			//StartCoroutine (PostMovement());
+			CheckFill();
+		});
+	}
+
+	public void CheckFill(){
+		if (!m_gridMap.GetCellAt (CharacterLocation).IsCovered)
+		{
+			m_pathController.AddPathCell (m_gridMap.GetCellAt (CharacterLocation));
+		}
+		// Close a path.
+		else if (m_gridMap.GetCellAt (CharacterLocation).IsCovered)
+		{
+			GameObject[] GO = GameObject.FindGameObjectsWithTag ("DumbEnemy");
+			foreach (GameObject go in GO)
+			{
+				GridLocation enemieLocation = new GridLocation((int) Math.Round(go.transform.position.x, MidpointRounding.ToEven), 
+					(int) Math.Round(go.transform.position.z, MidpointRounding.ToEven));
+				FloodFill.FillEnemiesArea (m_gridMap, m_gridMap.GetCellAt (enemieLocation));
+			}
+			FloodFill.FillPlayerCoveredArea (m_gridMap);
+			FloodFill.ClearEnemiesArea (m_gridMap);	
+			m_pathController.ClosePath ();
+
+			m_gridrenderer.FillTrail ();
+
+			//guiController.VerifyPercentageOfGridCovered ();
+		}
+
+		m_isMoving = false;
+		m_notMovingTime = Time.time;
+	}
+
     private IEnumerator move (Transform transform) 
 	{
         m_isMoving = true;
@@ -288,16 +352,25 @@ public class GridMove : MonoBehaviour {
 //			
 //            yield return null;
 //        }	
-		float m_moveTime = Vector3.Distance (m_startPosition,m_endPostion)/m_moveSpeed;
-		transform.DOMove (m_endPostion, m_moveTime, false).SetEase (Ease.Linear).OnComplete (() => {
-			StartCoroutine (PostMovement());
-		});
+
+//		float m_moveTime = Vector3.Distance (m_startPosition,m_endPostion)/m_moveSpeed;
+//		transform.DOMove (m_endPostion, m_moveTime, false).SetEase (Ease.Linear).OnComplete (() => {
+//			StartCoroutine (PostMovement());
+//		});
+
+		transform.LookAt (m_endPostion);
+		while (transform.position != m_endPostion) {
+			transform.Translate (Vector3.forward * m_moveSpeed * Time.deltaTime);
+			//transform.position = Vector3.MoveTowards (transform.position, m_endPostion, m_moveSpeed * Time.deltaTime);
+			yield return new WaitForSeconds (Time.deltaTime);
+		}
+
 
 //		while (transform.position != m_endPostion) {
 //			transform.position = Vector3.MoveTowards (transform.position, m_endPostion, m_moveSpeed * Time.deltaTime);
 //			yield return new WaitForSeconds (Time.deltaTime);
 //		}
-
+		StartCoroutine (PostMovement());
 		yield return 0;
 	
 	//	StartCoroutine (move(transform));
