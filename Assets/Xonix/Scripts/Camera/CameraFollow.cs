@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour
 	
 	// The camera is already following the target?
 	bool m_following = false;
-	
+	public Vector3 Buffer;
 	void Start ()
 	{ 
 		// First let's start with our Camera centered on the player. 
@@ -32,7 +32,7 @@ public class CameraFollow : MonoBehaviour
 	
 	void Update ()
 	{
-		float dist = Vector3.Distance (this.transform.position, m_target.transform.position);
+		float dist = Vector3.Distance (this.transform.position, m_target.transform.position+Buffer);
 		
 		// If distance exceeds the treshold then lerp our focal point to new location.
 		if (dist >= m_threshold && !m_following) {
@@ -50,7 +50,7 @@ public class CameraFollow : MonoBehaviour
 		{
 			fracComplete = (Time.time - m_startTime) / m_journeyTime;
 			dist = Vector3.Distance (m_target.position, this.transform.position);
-			this.transform.position = Vector3.Lerp (this.transform.position, m_target.position + distanceFromTarget, fracComplete);
+			this.transform.position = Vector3.Lerp (this.transform.position, m_target.position + distanceFromTarget+Buffer, fracComplete);
 			yield return new WaitForEndOfFrame();
 		}
 		while (dist > 0.1f);	

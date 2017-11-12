@@ -161,14 +161,17 @@ public class PlayerController : MonoBehaviour {
 	        index++;
 	    }
 	}
-	
+	public GameObject DeathParticle;
+	public GameObject Mesh;
 	// Kill the player.
 	public void Kill ()
 	{
 		m_audioSource.clip = m_explosionSound;
 		m_audioSource.Play();
-		
-		this.gameObject.GetComponentInChildren<ParticleEmitter> ().Emit ();
+		Mesh.SetActive (false);
+		GameObject Explosion = Instantiate (DeathParticle);
+		Explosion.transform.position = transform.position;
+		//this.gameObject.GetComponentInChildren<ParticleEmitter> ().Emit ();
 		
 		m_guiController.Restart ();
 	}

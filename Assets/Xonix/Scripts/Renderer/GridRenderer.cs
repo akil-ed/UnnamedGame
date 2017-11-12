@@ -32,7 +32,8 @@ public class GridRenderer : MonoBehaviour {
 	private int m_numberOfGridCells = 0;
 
 	public List<Transform> TrailList,CompletedList;
-		
+
+	public Material Trail, isFilled;
 	#endregion
 	
 	#region Methods
@@ -77,8 +78,9 @@ public class GridRenderer : MonoBehaviour {
 		w.name = "Wall"+cell.Location.x.ToString()+"-"+cell.Location.y.ToString();
 		w.parent = m_gridComponents.transform;
 
+		w.GetComponent <MeshRenderer> ().material = Trail;
 		//w.localScale = Vector3.zero;
-		w.GetComponent <Tween>().PerformScale (new Vector3 (0.4f, 0.4f, 0.4f), 0.6f,Ease.OutBounce);
+		w.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.6f,Ease.OutBounce);
 		TrailList.Add (w);
 
 		w.gameObject.AddComponent<PathCollision>();
@@ -100,9 +102,10 @@ public class GridRenderer : MonoBehaviour {
 				Transform w = Instantiate (m_wall, centroid, Quaternion.identity) as Transform;
 				w.name = "Wall"+cell.Location.x.ToString()+"-"+cell.Location.y.ToString();
 				w.parent = m_gridComponents.transform;
-				//w.localScale = Vector3.zero;
+				w.localScale = Vector3.zero;
+				//w.GetComponent <MeshRenderer> ().material = Trail;
 				//w.DOScale (new Vector3 (1, 1, 1), 0.5f);
-				w.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.Linear);
+				w.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.5f,Ease.Linear);
 				CompletedList.Add (w);
 			
 				FillTrail ();
@@ -133,7 +136,8 @@ public class GridRenderer : MonoBehaviour {
 
 	public void FillTrail(){
 		foreach (Transform T in TrailList) {
-			T.GetComponent <Tween>().PerformScale (new Vector3 (1, 1, 1), 0.5f,Ease.OutElastic);
+			T.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.5f,Ease.OutElastic);
+			T.GetComponent <MeshRenderer> ().material = isFilled;
 			CompletedList.Add (T);
 			m_numberOfRenderedCells++;
 		}
