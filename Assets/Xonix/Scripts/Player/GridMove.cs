@@ -72,7 +72,8 @@ public class GridMove : MonoBehaviour {
 	#endregion
 	
 	#region Methods
-	
+	public static float rotationAngle;
+
 	private void Start ()
 	{
 		m_gridMap = GameObject.Find ("GridBuilder").GetComponent<GridBuilder> ().GridMap;
@@ -230,14 +231,16 @@ public class GridMove : MonoBehaviour {
 
 
 			if (m_input.x < 0)
-				Character.transform.DORotate (new Vector3 (0, 270, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
+				rotationAngle = 270;
 			else if (m_input.x > 0)
-				Character.transform.DORotate (new Vector3 (0, 90, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
+				rotationAngle = 90;
 
 			if (m_input.y < 0)
-				Character.transform.DORotate (new Vector3 (0, 180, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
+				rotationAngle = 180;
 			else if (m_input.y > 0)
-				Character.transform.DORotate (new Vector3 (0, 0, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
+				rotationAngle = 0;
+
+			Character.transform.DORotate (new Vector3 (0, rotationAngle, 0),m_rotateSpeed,RotateMode.Fast).SetEase (Ease.Linear);
 
 
 			// If the player moves the character.

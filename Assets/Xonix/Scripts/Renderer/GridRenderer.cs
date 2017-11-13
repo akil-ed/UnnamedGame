@@ -81,6 +81,8 @@ public class GridRenderer : MonoBehaviour {
 		w.GetComponent <MeshRenderer> ().material = Trail;
 		//w.localScale = Vector3.zero;
 		w.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.6f,Ease.OutBounce);
+		w.GetComponent<Block> ().AssignTrail ();
+		w.rotation = Quaternion.Euler (0,GridMove.rotationAngle,0);
 		TrailList.Add (w);
 
 		w.gameObject.AddComponent<PathCollision>();
@@ -105,7 +107,9 @@ public class GridRenderer : MonoBehaviour {
 				w.localScale = Vector3.zero;
 				//w.GetComponent <MeshRenderer> ().material = Trail;
 				//w.DOScale (new Vector3 (1, 1, 1), 0.5f);
+				w.GetComponent<Block> ().AssignComplete ();
 				w.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.5f,Ease.Linear);
+
 				CompletedList.Add (w);
 			
 				FillTrail ();
@@ -138,6 +142,7 @@ public class GridRenderer : MonoBehaviour {
 		foreach (Transform T in TrailList) {
 			T.GetComponent <Tween>().PerformScale (new Vector3 (1, 0.05f, 1), 0.5f,Ease.OutElastic);
 			T.GetComponent <MeshRenderer> ().material = isFilled;
+			T.GetComponent<Block> ().AssignComplete ();
 			CompletedList.Add (T);
 			m_numberOfRenderedCells++;
 		}
