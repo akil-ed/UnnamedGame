@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 // Define all paths logics
 public class PathController : MonoBehaviour
 {
@@ -39,8 +39,17 @@ public class PathController : MonoBehaviour
 	{
 		m_guiController = GameObject.Find ("GUIController").GetComponent<GUIController> ();
 		m_gridRenderer = GameObject.Find ("GridRenderer").GetComponent<GridRenderer> ();
-		m_playerGridMove = GameObject.Find ("Player").GetComponent<GridMove> ();
-		m_playerController = GameObject.Find ("Player").GetComponent<PlayerController> ();
+		if (!SettingsManager.instance.multiplayer) 
+		{
+			m_playerGridMove = GameObject.FindObjectOfType<GridMove> ();
+			m_playerController = GameObject.FindObjectOfType<PlayerController> ();
+		}
+		else
+		{
+			m_playerGridMove = GameObject.FindObjectsOfType<GridMove> ().Where(a=>PhotonView.Get(a).isMine).First();
+			m_playerController = GameObject.FindObjectsOfType<PlayerController> ().Where(a=>PhotonView.Get(a).isMine).First();
+
+		}
 	}
 	
 	// Add a cell to the current path.

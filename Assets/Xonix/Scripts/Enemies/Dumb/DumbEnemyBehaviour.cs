@@ -31,6 +31,7 @@ public class DumbEnemyBehaviour : MonoBehaviour {
 		float z = Random.Range(-1f, 1f);
 		Vector3 direction = new Vector3(x, 0f, z);
 			
+//		if()
 		this.gameObject.GetComponent<Rigidbody>().velocity = direction * m_speed;
 	}
 	

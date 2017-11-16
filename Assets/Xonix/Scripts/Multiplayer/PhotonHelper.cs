@@ -7,6 +7,7 @@ public class PhotonHelper : MonoBehaviour
 {
 	public static PhotonHelper instance;
 	public bool wait;
+	public string sceneName;
 
 	void Start()
 	{
@@ -43,7 +44,7 @@ public class PhotonHelper : MonoBehaviour
 		if(wait)
 		StartCoroutine (WaitForPlayers());
 		else
-			SceneManager.LoadScene ("Main_2");
+			SceneManager.LoadScene (sceneName);
 		//PhotonNetwork.Instantiate ("player",Vector3.zero,Quaternion.identity,new byte());
 	}
 
@@ -56,7 +57,7 @@ public class PhotonHelper : MonoBehaviour
 	{
 		while (PhotonNetwork.playerList.Length != PhotonNetwork.room.MaxPlayers)
 			yield return null;
-		SceneManager.LoadScene ("Main_2");
+		SceneManager.LoadScene (sceneName);
 	}
 
 }

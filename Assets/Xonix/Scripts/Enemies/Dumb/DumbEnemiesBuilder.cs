@@ -35,14 +35,24 @@ public class DumbEnemiesBuilder : MonoBehaviour {
 	// Generates a defined number of enemies.
 	private void GenerateEnemies ()
 	{
-		for (int i = 0; i < m_enemiesNumber; i ++)
+		if (!SettingsManager.instance.multiplayer) {
+			for (int i = 0; i < m_enemiesNumber; i++) {
+				GridLocation enemyLocation = new GridLocation (Random.Range (1, m_gridMap.Width - 1), Random.Range (1, m_gridMap.Height - 1));
+
+				Transform e = Instantiate (m_enemy, new Vector3 (enemyLocation.x, 0f, enemyLocation.y), Quaternion.identity) as Transform;
+				e.transform.parent = m_enemiesParent.transform;
+			}	
+		} 
+		else if(SettingsManager.instance.multiplayer && PhotonNetwork.isMasterClient)
 		{
-			GridLocation enemyLocation = new GridLocation (Random.Range(1, m_gridMap.Width-1), Random.Range(1, m_gridMap.Height-1));
-			
-			Transform e = Instantiate (m_enemy, new Vector3 (enemyLocation.x, 0f, enemyLocation.y), Quaternion.identity) as Transform;
-			e.transform.parent = m_enemiesParent.transform;
-			e.gameObject.AddComponent<DumbEnemyBehaviour>(); 
+			for (int i = 0; i < m_enemiesNumber; i++) {
+				GridLocation enemyLocation = new GridLocation (Random.Range (1, m_gridMap.Width - 1), Random.Range (1, m_gridMap.Height - 1));
+
+				Transform e = PhotonNetwork.Instantiate("Enemy", new Vector3 (enemyLocation.x, 0f, enemyLocation.y), Quaternion.identity,new byte()).transform;
+				e.transform.parent = m_enemiesParent.transform;
+			}	
 		}
+
 	}
 	
 	// Slow down all enemies.

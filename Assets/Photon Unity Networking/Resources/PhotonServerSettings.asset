@@ -43,4 +43,8 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - ScaleAnimation
+  - MoveDown
+  - MoveLeft
+  - MoveRight
+  - MoveUp
   DisableAutoOpenWizard: 1

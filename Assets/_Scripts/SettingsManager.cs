@@ -5,9 +5,11 @@ using UnityEngine;
 public class SettingsManager : MonoBehaviour {
 	public PlanarRealtimeReflection Reflection;
 	public BloomPro Glow;
+	public static SettingsManager instance;
+	public bool multiplayer;
 	// Use this for initialization
 	void Start () {
-		
+		instance = this;
 	}
 	
 	// Update is called once per frame

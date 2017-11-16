@@ -143,19 +143,28 @@ public class GridMove : MonoBehaviour {
 		
     void Update () 
 	{	
-
-		if(Input.GetKeyDown (KeyCode.LeftArrow))
-			m_input = Vector2.left;
-		if(Input.GetKeyDown (KeyCode.RightArrow))
-			m_input = Vector2.right;
-		if(Input.GetKeyDown (KeyCode.UpArrow))
-			m_input = Vector2.up;
-		if(Input.GetKeyDown (KeyCode.DownArrow))
-			m_input = Vector2.down;
-
-
-
-
+		if (!SettingsManager.instance.multiplayer) {
+			if (Input.GetKeyDown (KeyCode.LeftArrow))
+				MoveLeft ();
+			if (Input.GetKeyDown (KeyCode.RightArrow))
+				MoveRight ();
+			if (Input.GetKeyDown (KeyCode.UpArrow))
+				MoveUp ();
+			if (Input.GetKeyDown (KeyCode.DownArrow))
+				MoveDown ();
+		}
+		else if (SettingsManager.instance.multiplayer && PhotonView.Get (this).isMine) 
+		{
+			if (Input.GetKeyDown (KeyCode.LeftArrow))
+				PhotonView.Get (this).RPC("MoveLeft",PhotonTargets.All,transform.position);
+			if (Input.GetKeyDown (KeyCode.RightArrow))
+				PhotonView.Get (this).RPC("MoveRight",PhotonTargets.All,transform.position);
+			if (Input.GetKeyDown (KeyCode.UpArrow))
+				PhotonView.Get (this).RPC("MoveUp",PhotonTargets.All,transform.position);
+			if (Input.GetKeyDown (KeyCode.DownArrow))
+				PhotonView.Get (this).RPC("MoveDown",PhotonTargets.All,transform.position);
+		}
+			
 //		if (!m_guiController.GameCompleted && !m_isMoving) 
 //		{
 //			// Getting input values.
@@ -194,6 +203,55 @@ public class GridMove : MonoBehaviour {
 //			NotMovingAnimation ();
 //        }
     }
+
+	public void MoveLeft()
+	{
+		m_input = Vector2.left;
+	}
+
+	[PunRPC]
+	public void MoveLeft(Vector3 position)
+	{
+		transform.position = position;
+		m_input = Vector2.left;
+	}
+
+	public void MoveRight()
+	{
+		m_input = Vector2.right;
+	}
+
+	[PunRPC]
+	public void MoveRight(Vector3 position)
+	{
+		transform.position = position;
+		m_input = Vector2.right;
+	}
+
+	public void MoveUp()
+	{
+		m_input = Vector2.up;
+	}
+
+	[PunRPC]
+	public void MoveUp(Vector3 position)
+	{
+		transform.position = position;
+		m_input = Vector2.up;
+	}
+
+	public void MoveDown()
+	{
+		m_input = Vector2.down;
+	}
+
+	[PunRPC]
+	public void MoveDown(Vector3 position)
+	{
+		transform.position = position;
+		m_input = Vector2.down;
+	}
+
 
 	void LateUpdate(){
 		Movement ();
