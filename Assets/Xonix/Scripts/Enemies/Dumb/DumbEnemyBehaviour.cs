@@ -44,7 +44,7 @@ public class DumbEnemyBehaviour : MonoBehaviour {
 	{
 		if (collision.gameObject.tag == "Wall")
 		{
-			m_audioSource.Play ();
+			//m_audioSource.Play ();
 		}
 	}
 	

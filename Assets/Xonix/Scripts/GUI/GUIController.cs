@@ -142,6 +142,7 @@ public class GUIController : MonoBehaviour {
 		m_livesNumber.transform.position = m_position;
 		m_livesNumber.font = m_font;
 		m_livesNumber.fontSize = 65;
+		//m_livesNumber.fontSize = 0;
 		m_livesNumber.material.color = Color.red;	
 		m_livesNumber.transform.parent = m_GUIparent.transform;
 		
@@ -155,6 +156,7 @@ public class GUIController : MonoBehaviour {
 		m_lifeIcon.texture = m_lifeTexture;
 		m_lifeIcon.transform.position = m_position;
 		m_lifeIcon.pixelInset = new Rect (0, 0, m_lifeWidth, m_lifeHeight);
+		m_lifeIcon.pixelInset = new Rect (0, 0, 0, 0);
 		m_lifeIcon.transform.parent = m_GUIparent.transform;
 		
 		// Chosing the background music.
@@ -184,6 +186,7 @@ public class GUIController : MonoBehaviour {
 			if (m_playerController.PlayerLives <= 0)
 				KillPlayer ();
 			m_livesNumber.text = m_playerController.PlayerLives.ToString ();
+			m_livesNumber.text = "";
 		}
 	}
 	

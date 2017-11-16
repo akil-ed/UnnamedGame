@@ -33,7 +33,7 @@ public class GridRenderer : MonoBehaviour {
 
 	public List<Transform> TrailList,CompletedList;
 
-	public Material Trail, isFilled;
+	public Material Trail, isFilled, OuterWall;
 	#endregion
 	
 	#region Methods
@@ -115,7 +115,7 @@ public class GridRenderer : MonoBehaviour {
 				FillTrail ();
 
 				if (isFirst) {
-					w.GetComponent <MeshRenderer> ().enabled = false;
+					w.GetComponent<Block> ().AssignWall ();
 				}
 				m_numberOfRenderedCells++;
 				cell.IsDraw = true;
